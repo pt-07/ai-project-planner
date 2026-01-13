@@ -139,7 +139,13 @@ Provide a well-structured, detailed design document that a development team can 
         response = self.client.messages.create(
             model=self.model,
             max_tokens=8000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -190,7 +196,13 @@ Format as a detailed architecture document."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=4000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -240,7 +252,13 @@ Format as a detailed data model specification."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=4000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -290,7 +308,13 @@ Format as a detailed API specification document."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=4000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -341,7 +365,13 @@ Format as a detailed technology stack recommendation."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=3000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -391,7 +421,13 @@ Format as a detailed implementation roadmap."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=3000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -460,7 +496,13 @@ Format your response with each diagram clearly labeled and separated."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=4000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt
@@ -561,7 +603,13 @@ Provide specific, actionable recommendations with clear reasoning."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=6000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt

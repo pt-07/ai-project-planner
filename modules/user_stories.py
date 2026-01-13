@@ -108,7 +108,13 @@ Return ONLY a valid JSON array of user stories, no additional text."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=6000,
-            system=system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=[{
                 "role": "user",
                 "content": user_prompt

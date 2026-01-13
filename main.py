@@ -10,6 +10,7 @@ from modules.storage import Database
 from modules.requirements import RequirementsGatherer
 from modules.export import MarkdownExporter
 from modules.design import DesignGenerator
+from modules.user_stories import UserStoryGenerator
 
 
 def print_header():
@@ -239,8 +240,11 @@ def generate_design_menu(db, project_id):
     print("4. API specification only")
     print("5. Technology stack recommendations")
     print("6. Implementation plan/roadmap")
-    print("7. Generate all individually")
-    print("8. Back")
+    print("7. Mermaid diagrams (architecture, ERD, sequence, deployment)")
+    print("8. Architecture recommendations (patterns, scalability, security)")
+    print("9. User stories with acceptance criteria")
+    print("10. Generate all individually")
+    print("11. Back")
 
     choice = input("\nChoice: ").strip()
 
@@ -296,32 +300,90 @@ def generate_design_menu(db, project_id):
             print("\n✓ Implementation plan generated and saved!")
 
         elif choice == '7':
+            print("\nGenerating Mermaid diagrams...")
+            diagrams = generator.generate_diagrams(project, db)
+            print("\n" + "="*60)
+            print(diagrams)
+            print("="*60)
+            print("\n✓ Mermaid diagrams generated and saved!")
+
+        elif choice == '8':
+            print("\nGenerating architecture recommendations...")
+            arch_rec = generator.generate_architecture_recommendations(project, db)
+            print("\n" + "="*60)
+            print(arch_rec)
+            print("="*60)
+            print("\n✓ Architecture recommendations generated and saved!")
+
+        elif choice == '9':
+            print("\nGenerating user stories with acceptance criteria...")
+            story_gen = UserStoryGenerator()
+            user_stories = story_gen.generate_user_stories(project, db)
+
+            if user_stories:
+                print("\n" + "="*60)
+                print(f"Generated {len(user_stories)} user stories")
+                print("="*60)
+
+                # Ask if user wants CSV export
+                export_csv = input("\nExport user stories to CSV? (y/n): ").strip().lower()
+                if export_csv == 'y':
+                    csv_path = story_gen.export_to_csv(user_stories, project.name)
+                    print(f"✓ Exported to CSV: {csv_path}")
+
+                # Ask if user wants markdown export
+                export_md = input("\nExport user stories to markdown? (y/n): ").strip().lower()
+                if export_md == 'y':
+                    md_path = story_gen.export_to_markdown(user_stories, project.name)
+                    print(f"✓ Exported to markdown: {md_path}")
+
+                print("\n✓ User stories generated and saved!")
+            else:
+                print("\n✗ Failed to generate user stories")
+
+        elif choice == '10':
             print("\nGenerating all design artifacts...")
             print("This will take a few moments...\n")
 
-            print("1/5 Generating architecture...")
+            print("1/8 Generating architecture...")
             generator.generate_architecture(project, db)
             print("✓ Architecture complete")
 
-            print("2/5 Generating data model...")
+            print("2/8 Generating data model...")
             generator.generate_data_model(project, db)
             print("✓ Data model complete")
 
-            print("3/5 Generating API specification...")
+            print("3/8 Generating API specification...")
             generator.generate_api_spec(project, db)
             print("✓ API specification complete")
 
-            print("4/5 Generating technology stack...")
+            print("4/8 Generating technology stack...")
             generator.generate_tech_stack(project, db)
             print("✓ Technology stack complete")
 
-            print("5/5 Generating implementation plan...")
+            print("5/8 Generating implementation plan...")
             generator.generate_implementation_plan(project, db)
             print("✓ Implementation plan complete")
 
+            print("6/8 Generating Mermaid diagrams...")
+            generator.generate_diagrams(project, db)
+            print("✓ Diagrams complete")
+
+            print("7/8 Generating architecture recommendations...")
+            generator.generate_architecture_recommendations(project, db)
+            print("✓ Architecture recommendations complete")
+
+            print("8/8 Generating user stories...")
+            story_gen = UserStoryGenerator()
+            user_stories = story_gen.generate_user_stories(project, db)
+            if user_stories:
+                story_gen.export_to_csv(user_stories, project.name)
+                story_gen.export_to_markdown(user_stories, project.name)
+            print("✓ User stories complete")
+
             print("\n✓ All design artifacts generated and saved!")
 
-        elif choice == '8':
+        elif choice == '11':
             return
         else:
             print("Invalid choice")

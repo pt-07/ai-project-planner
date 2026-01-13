@@ -77,7 +77,13 @@ Ask your first question (1 of 8) to gather important requirements. Be specific a
         response = self.client.messages.create(
             model=self.model,
             max_tokens=500,
-            system=self.system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": self.system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=messages
         )
 
@@ -129,7 +135,13 @@ Return ONLY the JSON object, no additional text."""
         response = self.client.messages.create(
             model=self.model,
             max_tokens=2000,
-            system=self.system_prompt,
+            system=[
+                {
+                    "type": "text",
+                    "text": self.system_prompt,
+                    "cache_control": {"type": "ephemeral"}
+                }
+            ],
             messages=messages
         )
 
